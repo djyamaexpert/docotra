@@ -1,0 +1,36 @@
+{
+  "name": "docotra",
+  "version": "0.1.0",
+  "description": "docodemo transceiver",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/js --fix",
+    "build": "NODE_ENV=production webpack",
+    "dev": "webpack --watch -d & browser-sync start --config bs-config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yusuke/docotora.git"
+  },
+  "author": "Yusuke Naka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yusuke/docotora/issues"
+  },
+  "homepage": "https://github.com/yusuke/docotora#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.4",
+    "babel-preset-es2015": "^6.24.1",
+    "browser-sync": "^2.23.6",
+    "eslint": "^4.18.2",
+    "gulp-webpack": "^1.5.0",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.10"
+  },
+  "dependencies": {
+    "skyway-js": "^1.1.6"
+  }
+}
