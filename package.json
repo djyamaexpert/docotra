@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/js --fix",
     "build": "NODE_ENV=production webpack",
-    "dev": "webpack --watch -d & browser-sync start --config bs-config.js"
+    "dev": "webpack --watch -d",
+    "dev-browser": "webpack --watch -d & browser-sync start --config bs-config.js"
   },
   "repository": {
     "type": "git",
