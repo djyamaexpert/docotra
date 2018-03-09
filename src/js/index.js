@@ -26,4 +26,5 @@ joinRoomElement.addEventListener('click', () =>{
 
 speakElement.addEventListener('click', () =>{
     skyway.speak();
+    view.switchSpeakButton(skyway.getSpeakStatus());
 });

@@ -4,18 +4,26 @@ class viewController {
 
     constructor(param) {
         this.options = param;
+        this.joinRoomElement = document.getElementById('joinRoom');
+        this.roomNameElement = document.getElementById('roomName');
+        this.speakElement = document.getElementById('speak');
     }
 
     initView() {
     }
 
     joinedView() {
-        const joinRoomElement = document.getElementById('joinRoom');
-        const roomNameElement = document.getElementById('roomName');
-        const speakElement = document.getElementById('speak');
-        joinRoomElement.style.display = 'none';
-        roomNameElement.style.display = 'none';
-        speakElement.style.display = 'block';
+        this.joinRoomElement.style.display = 'none';
+        this.roomNameElement.style.display = 'none';
+        this.speakElement.style.display = 'block';
+    }
+
+    switchSpeakButton(isSpeaker) {
+        if(isSpeaker){
+            this.speakElement.value = 'やめる';
+        }else {
+            this.speakElement.value = '喋る';
+        }
     }
 
 }

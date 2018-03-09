@@ -38,11 +38,13 @@ class skywayHelper {
                 self.controlRoomInstance.on('data', data =>{
                     console.log('received data');
                     if(data.data.message === 'speak'){
-                        self.joinMediaRoom().then(result =>{
-                            if(result.type === 'stream'){
-                                utility.playMediaStream(document.getElementById('remote'),result.value);
-                            }
-                        });
+                        setTimeout(() => {
+                            self.joinMediaRoom().then(result =>{
+                                if(result.type === 'stream'){
+                                    utility.playMediaStream(document.getElementById('remote'),result.value);
+                                }
+                            });
+                        },2000);
                     }
                     if(data.data.message === 'stopSpeak'){
                         self.mediaRoomInstance.close();
@@ -112,6 +114,10 @@ class skywayHelper {
         return this.roomName;
     }
 
+    getSpeakStatus(){
+        return this.isSpeaker;
+    }
+
     _sfuWorkAround(){
         const self = this;
         return new Promise((resolve, reject) => {
@@ -119,7 +125,7 @@ class skywayHelper {
             dummyPeer.on('open', () => {
                 const dummyRoom = dummyPeer.joinRoom(self.roomName, {mode: 'sfu'});
                 dummyRoom.on('close', () => {
-                    dummyPeer.disconnect();
+                    dummyPeer.destroy();
                     resolve(true);
                 });
                 dummyRoom.on('open', () => {
