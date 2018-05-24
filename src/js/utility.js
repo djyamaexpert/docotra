@@ -48,14 +48,21 @@ class utility {
      */
     static async playMediaStream(element,stream) {
         element.srcObject = stream;
-        await element.play();
+        let playPromise = await element.play();
+        if(playPromise !== undefined){
+            playPromise.then(_ => {
+                console.log('play video');
+            }).catch(error => {
+                console.log('error auto play');
+            });
+        }
     }
 
     /**
      * video要素でMediaStreamを停止する
      * @param element
      */
-    static async stopMediaStream(element) {
+    static stopMediaStream(element) {
         element.pause();
         element.srcObject = null;
     }
@@ -63,3 +70,4 @@ class utility {
 }
 
 export default utility;
+

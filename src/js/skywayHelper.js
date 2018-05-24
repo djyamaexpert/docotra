@@ -17,47 +17,40 @@ class skywayHelper {
         this.isSpeaker = false;
     }
 
-    joinControlRoom(roomName){
+    joinControlRoom(roomName,cb){
         this.skywayControlInstance = new Peer({key: this.options.APIKEY,debug: 3});
         this.roomName = roomName;
         const self = this;
-        return new Promise((resolve,reject) => {
-            self.skywayControlInstance.on('open', peerId => {
-                self.peerId = peerId;
-                self.controlRoomInstance = self.skywayControlInstance.joinRoom(self.controlRoomPrefix + self.roomName,{mode: self.options.mode});
-                self.controlRoomInstance.on('open', () =>{
-                    console.log('joined control room.');
-                    resolve({type:'open',value:'true'});
-                });
-                self.controlRoomInstance.on('peerJoin', peerId =>{
-                    console.log('join the peer:' + peerId);
-                    if(self.isSpeaker){
-                        self.controlRoomInstance.send({message:'speak'});
-                    }
-                });
-                self.controlRoomInstance.on('data', data =>{
-                    console.log('received data');
-                    if(data.data.message === 'speak'){
-                        setTimeout(() => {
-                            self.joinMediaRoom().then(result =>{
-                                if(result.type === 'stream'){
-                                    utility.playMediaStream(document.getElementById('remote'),result.value);
-                                }
-                            });
-                        },2000);
-                    }
-                    if(data.data.message === 'stopSpeak'){
-                        self.mediaRoomInstance.close();
-                        self.mediaRoomInstance = null;
-                        utility.stopMediaStream(document.getElementById('remote'));
-                    }
-                });
-                self.controlRoomInstance.on('error', error =>{
-                    reject(error);
-                });
+        self.skywayControlInstance.on('open', peerId => {
+            self.peerId = peerId;
+            self.controlRoomInstance = self.skywayControlInstance.joinRoom(self.controlRoomPrefix + self.roomName,{mode: self.options.mode});
+            self.controlRoomInstance.on('open', () =>{
+                console.log('joined control room.');
+                cb({type:'open',value:peerId});
+            });
+            self.controlRoomInstance.on('peerJoin', peerId =>{
+                console.log('join the peer:' + peerId);
+                if(self.isSpeaker){
+                    self.controlRoomInstance.send({message:'speak'});
+                }
+            });
+            self.controlRoomInstance.on('data', data =>{
+                console.log('received data');
+                if(data.data.message === 'speak'){
+                    cb({type:'data',value:data.data.message});
+                }
+                if(data.data.message === 'stopSpeak'){
+                    self.mediaRoomInstance.close();
+                    self.mediaRoomInstance = null;
+                    cb({type:'data',value:data.data.message});
+                }
+            });
+            self.controlRoomInstance.on('error', error =>{
+                reject(error);
             });
         });
     }
+
     joinMediaRoom(){
         const self = this;
         return new Promise(async (resolve,reject) => {
@@ -70,8 +63,10 @@ class skywayHelper {
                 }
                 self.mediaRoomInstance.on('open', async (peerId) =>{
                     (self.options.mode === 'sfu')? await self._sfuWorkAround():false;
-                    console.log('joined media room:' + peerId);
-                    self.controlRoomInstance.send({message:'speak'});
+                    console.log('joined media room:');
+                    if(self.isSpeaker){
+                        self.controlRoomInstance.send({message:'speak'});
+                    }
                 });
                 self.mediaRoomInstance.on('peerJoin', peerId =>{
                     console.log('join the peer:' + peerId);
@@ -88,23 +83,9 @@ class skywayHelper {
         
     }
 
-    speak(){
-        if(this.isSpeaker === false){
-            this.isSpeaker = true;
-            this.joinMediaRoom().then(result =>{
-                console.log(result);
-            });            
-        }else{
-            this.isSpeaker = false;
-            this.mediaRoomInstance.close();
-            this.mediaRoomInstance = null;
-            this.controlRoomInstance.send({message:'stopSpeak'});
-        }
-    }
-
     async _getlocalAudioStream(){
         try{
-            this.localAudioStream = await navigator.mediaDevices.getUserMedia(utility.createGumConstraints(true,true,320,240,10));
+            this.localAudioStream = await navigator.mediaDevices.getUserMedia(utility.createGumConstraints(false,true,320,240,10));
         } catch(err){
             console.error('mediaDevice.getUserMedia() error:', err);
         }
