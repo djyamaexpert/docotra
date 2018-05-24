@@ -67,6 +67,14 @@ class utility {
         element.srcObject = null;
     }
 
+    /**
+     * URLハッシュを取得
+     * @returns {string}
+     */
+    static getURLHash(){
+        return location.hash;
+    }
+
 }
 
 export default utility;

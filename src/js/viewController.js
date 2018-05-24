@@ -5,7 +5,6 @@ class viewController {
     constructor(param) {
         this.options = param;
         this.joinRoomElement = document.getElementById('joinRoom');
-        this.roomNameElement = document.getElementById('roomName');
         this.nickNameElement = document.getElementById('nickName');
         this.speakElement = document.getElementById('speak');
         this.infomationFieldElement = document.getElementById('infomationField');
@@ -14,12 +13,11 @@ class viewController {
     initView() {
     }
 
-    joinedView() {
+    joinedView(roomName) {
         this.joinRoomElement.style.display = 'none';
-        this.roomNameElement.style.display = 'none';
         this.nickNameElement.style.display = 'none';
         this.speakElement.style.display = 'block';
-        this.infomationFieldElement.innerHTML = 'Name: ' + this.nickNameElement.value + ' / Room: ' + this.roomNameElement.value
+        this.infomationFieldElement.innerHTML = 'Name: ' + this.nickNameElement.value + ' / Room: ' + roomName;
         this.infomationFieldElement.style.display = 'block';
     }
 

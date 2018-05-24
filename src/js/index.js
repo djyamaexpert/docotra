@@ -11,8 +11,8 @@ const skywayOptions = {
 }
 
 const joinRoomElement = document.getElementById('joinRoom');
-const roomNameElement = document.getElementById('roomName');
 const speakElement = document.getElementById('speak');
+const roomName = utility.getURLHash();
 
 const skyway = new skywayHelper(skywayOptions);
 const view = new viewController();
@@ -20,12 +20,12 @@ const vad = new voiceDetertor();
 view.initView();
 
 joinRoomElement.addEventListener('click', () =>{
-    skyway.joinControlRoom(roomNameElement.value,function(result){
+    skyway.joinControlRoom(roomName,function(result){
         if(result.value === 'open') console.log(result);
         if(result.value === 'speak'){
             console.log(result);
             setTimeout(() => {
-                skyway.joinMediaRoom().then(result =>{
+                skyway.joinMediaRoom(roomName).then(result =>{
                     if(result.type === 'stream'){
                         utility.playMediaStream(document.getElementById('remote'),result.value);
                         vad.startVoiceDetection(result.value,(val) =>{
@@ -39,7 +39,7 @@ joinRoomElement.addEventListener('click', () =>{
             vad.stopVoiceDetection();    
             utility.stopMediaStream(document.getElementById('remote'));    
         }
-        view.joinedView();
+        view.joinedView(roomName);
     });
 });
 
