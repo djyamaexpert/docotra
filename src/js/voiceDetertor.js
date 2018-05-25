@@ -26,7 +26,9 @@ class voiceDetertor {
     }
 
     stopVoiceDetection(){
-        this.vadobject.destroy();
+        if(this.vadobject){
+            this.vadobject.destroy();
+        }
     }
 
 }

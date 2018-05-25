@@ -11,7 +11,7 @@ const skywayOptions = {
 }
 
 const joinRoomElement = document.getElementById('joinRoom');
-const speakElement = document.getElementById('speak');
+const micElement = document.getElementById('mic');
 const roomName = utility.getURLHash();
 
 const skyway = new skywayHelper(skywayOptions);
@@ -30,20 +30,26 @@ joinRoomElement.addEventListener('click', () =>{
                         utility.playMediaStream(document.getElementById('remote'),result.value);
                         vad.startVoiceDetection(result.value,(val) =>{
                             console.log('curr val:', val);
+                            view.micEffecter(val);
                         });
                     }
                 });
-            },3000);
+            },2000);
+            view.micDisabled();
+            view.setInfomation('誰か喋ってるよ');
         }
         if(result.value === 'stopSpeak'){
             vad.stopVoiceDetection();    
-            utility.stopMediaStream(document.getElementById('remote'));    
+            utility.stopMediaStream(document.getElementById('remote')); 
+            view.micEnabled();
+            view.micEffectOff();
+            view.setInfomation('マイクボタンを押して喋ってね');   
         }
         view.joinedView(roomName);
     });
 });
 
-speakElement.addEventListener('click', () =>{
+micElement.addEventListener('click', () =>{
     if(skyway.isSpeaker === false){
         skyway.isSpeaker = true;
         skyway.joinMediaRoom().then(result =>{
@@ -59,5 +65,5 @@ speakElement.addEventListener('click', () =>{
         skyway.mediaRoomInstance = null;
         skyway.controlRoomInstance.send({message:'stopSpeak'});
     }
-    view.switchSpeakButton(skyway.getSpeakStatus());
+    view.switchMicButton(skyway.getSpeakStatus());
 });

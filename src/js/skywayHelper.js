@@ -40,7 +40,9 @@ class skywayHelper {
                     cb({type:'data',value:data.data.message});
                 }
                 if(data.data.message === 'stopSpeak'){
-                    self.mediaRoomInstance.close();
+                    if(self.mediaRoomInstance){
+                        self.mediaRoomInstance.close();
+                    }
                     self.mediaRoomInstance = null;
                     cb({type:'data',value:data.data.message});
                 }
