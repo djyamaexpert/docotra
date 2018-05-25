@@ -5,17 +5,22 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="robots" content="noindex,nofollow" />
     <meta charset="utf-8" />
-    <title>docotra</title>
+    <title>ドコトラ</title>
     <link href="style/style.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-    <input id="roomName" type="text">
-    <input type="button" id="joinRoom" value="参加する">
-    <input type="button" id="speak" value="喋る">
-    <video id='local' autoplay muted='true'></video>
-    <video id='remote' autoplay></video>
+    <p id='infomationField'>マイクボタンを押して喋ってね</p>
+    <button id="joinRoom">
+            <i class="fa fa-power-off"></i>
+    </button>
+    <button id="mic">
+            <i class="fas fa-microphone fa-5x"></i>
+    </button>    
+    <input id="nickName" type="text" placeholder="ニックネーム">
+    <audio id='remote' autoplay></audi>
 </body>
 <script src="js/bundle.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe" crossorigin="anonymous"></script>
 </html>
 </body>
 </html>

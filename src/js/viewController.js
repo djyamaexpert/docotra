@@ -5,27 +5,52 @@ class viewController {
     constructor(param) {
         this.options = param;
         this.joinRoomElement = document.getElementById('joinRoom');
-        this.roomNameElement = document.getElementById('roomName');
-        this.speakElement = document.getElementById('speak');
+        this.nickNameElement = document.getElementById('nickName');
+        this.infomationFieldElement = document.getElementById('infomationField');
+        this.micElement = document.getElementById('mic');
     }
 
     initView() {
     }
 
-    joinedView() {
+    joinedView(roomName) {
         this.joinRoomElement.style.display = 'none';
-        this.roomNameElement.style.display = 'none';
-        this.speakElement.style.display = 'block';
+        //this.nickNameElement.style.display = 'none';
+        this.infomationFieldElement.style.display = 'block';
+        this.micElement.style.display = 'block';
     }
 
-    switchSpeakButton(isSpeaker) {
+    switchMicButton(isSpeaker) {
         if(isSpeaker){
-            this.speakElement.value = 'やめる';
+            this.micElement.classList.add('speaker');
         }else {
-            this.speakElement.value = '喋る';
+            this.micElement.classList.remove('speaker');
         }
     }
 
+    micEffecter(level){
+        if(level > 0){
+            this.micElement.classList.add('speaking');
+        }else if(level == 0){
+            this.micElement.classList.remove('speaking');
+        }      
+    }
+
+    micEffectOff(){
+        this.micElement.classList.remove('speaking');   
+    }
+
+    micEnabled(){
+        this.micElement.disabled = '';
+    }
+
+    micDisabled(){
+        this.micElement.disabled = 'true';  
+    }
+
+    setInfomation(string){
+        this.infomationFieldElement.innerText = string;
+    }
 }
 
 export default viewController;

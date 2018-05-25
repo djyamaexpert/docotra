@@ -12,8 +12,90 @@ body {
   margin: 0;
   padding: 0;
   background: #000000;
+  color: white;
 }
 
-#speak {
-    display: none;
+audio {
+  z-index: 0;
+}
+
+#infomationField {
+  display: none;
+  text-align: center;
+}
+
+#nickName {
+  display: none;
+}
+
+#mic {
+  display: none;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  margin: auto;
+  width: 80px;
+  height: 80px;
+  background-color: #5200FF;
+  color: #e8e8e8;
+  border-radius: 60px;
+  box-shadow: 0px 0px 30px #027AFD;
+  transition: box-shadow 0.1s;
+}
+
+#mic:hover{
+  box-shadow: 0px 0px 50px #027AFD;
+}
+
+#mic:active{
+  background-color:#FF0000;
+  box-shadow: 0px 0px 50px #FF6161;
+}
+
+#mic.speaker{
+  background-color:#FF0000;
+  box-shadow: 0px 0px 50px #FF6161;
+}
+
+#mic.speaking {
+  box-shadow: 0px 0px 50px #027AFD,
+    0px 0px 30px #027AFD,
+    0px 0px 30px #027AFD; 
+}
+
+#joinRoom {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  margin: auto;
+  display: inline-block;
+  text-decoration: none;
+  color: rgba(152, 152, 152, 0.43);/*アイコン色*/
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  font-size: 40px;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+  overflow: hidden;
+  font-weight: bold;
+  background-image: -webkit-linear-gradient(#e8e8e8 0%, #d6d6d6 100%);
+  background-image: linear-gradient(#e8e8e8 0%, #d6d6d6 100%);
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.66);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.5), 0 2px 2px rgba(0, 0, 0, 0.19);
+  border-bottom: solid 2px #b5b5b5;
+}
+
+#joinRoom .fa {
+  line-height: 80px;
+}
+#joinRoom:active {/*押したとき*/
+  background-image: -webkit-linear-gradient(#efefef 0%, #d6d6d6 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.001), 0 2px 2px rgba(0, 0, 0, 0.19);
+  border-bottom: none;
 }
