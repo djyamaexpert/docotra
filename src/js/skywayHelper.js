@@ -17,7 +17,7 @@ class skywayHelper {
         this.isSpeaker = false;
     }
 
-    joinControlRoom(roomName,cb){
+    joinControlRoom(roomName,successCb,errorCb){
         this.skywayControlInstance = new Peer({key: this.options.APIKEY,debug: 3});
         this.roomName = roomName;
         const self = this;
@@ -26,7 +26,7 @@ class skywayHelper {
             self.controlRoomInstance = self.skywayControlInstance.joinRoom(self.controlRoomPrefix + self.roomName,{mode: self.options.mode});
             self.controlRoomInstance.on('open', () =>{
                 console.log('joined control room.');
-                cb({type:'open',value:peerId});
+                successCb({type:'open',value:peerId});
             });
             self.controlRoomInstance.on('peerJoin', peerId =>{
                 console.log('join the peer:' + peerId);
@@ -37,18 +37,18 @@ class skywayHelper {
             self.controlRoomInstance.on('data', data =>{
                 console.log('received data');
                 if(data.data.message === 'speak'){
-                    cb({type:'data',value:data.data.message});
+                    successCb({type:'data',value:data.data.message});
                 }
                 if(data.data.message === 'stopSpeak'){
                     if(self.mediaRoomInstance){
                         self.mediaRoomInstance.close();
                     }
                     self.mediaRoomInstance = null;
-                    cb({type:'data',value:data.data.message});
+                    successCb({type:'data',value:data.data.message});
                 }
             });
             self.controlRoomInstance.on('error', error =>{
-                reject(error);
+                errorCb(error);
             });
         });
     }
@@ -63,7 +63,7 @@ class skywayHelper {
                 }else{
                     self.mediaRoomInstance = self.skywayControlInstance.joinRoom(self.roomName,{mode: self.options.mode});
                 }
-                self.mediaRoomInstance.on('open', async (peerId) =>{
+                self.mediaRoomInstance.on('open', async () =>{
                     (self.options.mode === 'sfu')? await self._sfuWorkAround():false;
                     console.log('joined media room:');
                     if(self.isSpeaker){

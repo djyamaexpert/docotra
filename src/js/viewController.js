@@ -13,7 +13,7 @@ class viewController {
     initView() {
     }
 
-    joinedView(roomName) {
+    joinedView() {
         this.joinRoomElement.style.display = 'none';
         //this.nickNameElement.style.display = 'none';
         this.infomationFieldElement.style.display = 'block';
