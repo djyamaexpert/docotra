@@ -50,10 +50,10 @@ class utility {
         element.srcObject = stream;
         let playPromise = await element.play();
         if(playPromise !== undefined){
-            playPromise.then(_ => {
+            playPromise.then(() => {
                 console.log('play video');
             }).catch(error => {
-                console.log('error auto play');
+                console.log('error auto play:' + error);
             });
         }
     }

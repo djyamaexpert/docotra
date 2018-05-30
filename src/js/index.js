@@ -45,7 +45,7 @@ joinRoomElement.addEventListener('click', () =>{
             view.micEffectOff();
             view.setInfomation('マイクボタンを押して喋ってね');   
         }
-        view.joinedView(roomName);
+        view.joinedView();
     });
 });
 
