@@ -8,12 +8,12 @@ import voiceDetertor from './voiceDetertor';
 const skywayOptions = {
     APIKEY: '6391272d-5c41-476d-9456-23b68a0f9ba2',
     mode: 'sfu',
-    isVideo: false
+    isVideo: false,
+    roomName: utility.getURLHash()
 }
 
 const joinRoomElement = document.getElementById('joinRoom');
 const micElement = document.getElementById('mic');
-const roomName = utility.getURLHash();
 
 const skyway = new skywayHelper(skywayOptions);
 const view = new viewController();
@@ -21,12 +21,12 @@ const vad = new voiceDetertor();
 view.initView();
 
 joinRoomElement.addEventListener('click', () =>{
-    skyway.joinControlRoom(roomName,function(result){
+    skyway.joinControlRoom(function(result){
         if(result.value === 'open') console.log(result);
         if(result.value === 'speak'){
             console.log(result);
             setTimeout(() => {
-                skyway.joinMediaRoom(roomName).then(result =>{
+                skyway.joinMediaRoom().then(result =>{
                     if(result.type === 'stream'){
                         utility.playMediaStream(document.getElementById('remote'),result.value);
                         vad.startVoiceDetection(result.value,(val) =>{
@@ -55,10 +55,6 @@ micElement.addEventListener('click', () =>{
         skyway.isSpeaker = true;
         skyway.joinMediaRoom().then(result =>{
             console.log(result);
-            utility.playMediaStream(document.getElementById('remote'),result.value);
-            utility.voiceDetection(result.value,(val) =>{
-                console.log('curr val:', val);
-            });
         });            
     }else{
         skyway.isSpeaker = false;
