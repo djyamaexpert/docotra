@@ -6,20 +6,21 @@ import Peer from 'skyway-js';
 class skywayHelper {
 
     constructor(param) {
-        this.options = param;
         this.localAudioStream = null;
         this.skywayControlInstance = null;
         this.controlRoomInstance = null;
         this.mediaRoomInstance = null;
         this.peerId = null;
-        this.roomName = null;
+        this.roomName = param.roomName;
         this.controlRoomPrefix = '_ctl_';
         this.isSpeaker = false;
+
+        delete param.roomName;
+        this.options = param;
     }
 
-    joinControlRoom(roomName,successCb,errorCb){
+    joinControlRoom(successCb,errorCb){
         this.skywayControlInstance = new Peer({key: this.options.APIKEY,debug: 3});
-        this.roomName = roomName;
         const self = this;
         self.skywayControlInstance.on('open', peerId => {
             self.peerId = peerId;
