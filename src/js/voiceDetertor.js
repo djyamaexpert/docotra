@@ -9,7 +9,7 @@ class voiceDetertor {
     }
 
     startVoiceDetection(stream,update) {
-        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        window.AudioContext = window.AudioContext;
         let audioContext = new AudioContext();
         let vadOptions = {
             onVoiceStart: function() {
@@ -18,8 +18,8 @@ class voiceDetertor {
             onVoiceStop: function() {
                 console.log('voice stop');
             },
-            onUpdate: async function(val) {
-                await update(val);
+            onUpdate: function(val) {
+                update(val);
             }
         };
         this.vadobject = vad(audioContext,stream,vadOptions);

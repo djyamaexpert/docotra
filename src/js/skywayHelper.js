@@ -58,13 +58,13 @@ class skywayHelper {
         return new Promise(async (resolve,reject) => {
             if(self.skywayControlInstance){
                 if(self.isSpeaker){
-                    await self._getlocalAudioStream();
+                    await self._getlocalStream(self.options.isVideo);
                     self.mediaRoomInstance = self.skywayControlInstance.joinRoom(self.roomName,{mode: self.options.mode,stream:self.localAudioStream});
                 }else{
                     self.mediaRoomInstance = self.skywayControlInstance.joinRoom(self.roomName,{mode: self.options.mode});
                 }
                 self.mediaRoomInstance.on('open', async () =>{
-                    (self.options.mode === 'sfu')? await self._sfuWorkAround():false;
+                    (self.options.mode === 'sfu' && self.options.isVideo === true)? await self._sfuWorkAround():false;
                     console.log('joined media room:');
                     if(self.isSpeaker){
                         self.controlRoomInstance.send({message:'speak'});
@@ -85,9 +85,9 @@ class skywayHelper {
         
     }
 
-    async _getlocalAudioStream(){
+    async _getlocalStream(videoFlag = false){
         try{
-            this.localAudioStream = await navigator.mediaDevices.getUserMedia(utility.createGumConstraints(false,true,320,240,10));
+            this.localAudioStream = await navigator.mediaDevices.getUserMedia(utility.createGumConstraints(videoFlag,true,320,240,10));
         } catch(err){
             console.error('mediaDevice.getUserMedia() error:', err);
         }

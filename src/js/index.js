@@ -8,6 +8,7 @@ import voiceDetertor from './voiceDetertor';
 const skywayOptions = {
     APIKEY: '6391272d-5c41-476d-9456-23b68a0f9ba2',
     mode: 'sfu',
+    isVideo: false
 }
 
 const joinRoomElement = document.getElementById('joinRoom');
